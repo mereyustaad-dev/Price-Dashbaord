@@ -94,7 +94,6 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
           </div>
         </div>
         
-        {/* The fix: ensuring a stable flex child with min dimensions for Recharts */}
         <div className="flex-1 min-w-0 min-h-0 w-full relative">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart 
@@ -129,7 +128,7 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
                 align="right" 
                 height={40} 
                 iconType="circle" 
-                wrapperStyle={{ paddingBottom: '20px', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase' }} 
+                wrapperStyle={{ paddingBottom: '20px', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase' as const }} 
               />
               <Line 
                 type="monotone" 
@@ -195,10 +194,10 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
   const renderSingleAnalysis = () => {
     const tour = selectedData[0];
     const barData = [
-      { name: 'Direct Cost', value: tour.netCost, color: '#64748b' },
-      { name: 'Tripventura Price', value: tour.sellingPrice, color: '#d10000' },
-      { name: 'Market Average', value: tour.medianMarketPrice, color: '#10b981' },
-      { name: 'Suggested Retail', value: tour.finalCustomerPrice, color: '#f59e0b' },
+      { name: 'DIRECT COST', value: tour.netCost, color: '#64748b' },
+      { name: 'TRIPVENTURA PRICE', value: tour.sellingPrice, color: '#d10000' },
+      { name: 'MARKET AVERAGE', value: tour.medianMarketPrice, color: '#10b981' },
+      { name: 'SUGGESTED RETAIL', value: tour.finalCustomerPrice, color: '#f59e0b' },
     ];
 
     const marketGap = tour.medianMarketPrice - tour.sellingPrice;
@@ -227,7 +226,13 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
                 <BarChart data={barData} layout="vertical" margin={{ left: 60, right: 80 }}>
                   <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
                   <XAxis type="number" hide />
-                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontWeight: 800, fontSize: 11, textTransform: 'uppercase' }} />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#64748b', fontWeight: 800, fontSize: 11 }} 
+                  />
                   <Tooltip cursor={{ fill: '#f8fafc' }} formatter={(v: any) => formatCurrency(v)} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
                   <Bar dataKey="value" radius={[0, 12, 12, 0]} barSize={44}>
                     {barData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
