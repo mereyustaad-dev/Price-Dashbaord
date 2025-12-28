@@ -78,12 +78,10 @@ const Sidebar: React.FC<SidebarProps> = ({
               `}>
                 {isSelected && <Check className="w-3.5 h-3.5 text-white" strokeWidth={4} />}
               </div>
-              <div className="ml-4 flex-1 min-w-0 marquee-container overflow-hidden">
-                <div className="marquee-content inline-block">
-                  <p className={`text-sm font-bold truncate tracking-tight transition-colors ${isSelected ? 'text-red-900' : 'text-slate-800'}`}>
-                    {tour.tourName}
-                  </p>
-                </div>
+              <div className="ml-4 flex-1 min-w-0">
+                <p className={`text-sm font-bold truncate tracking-tight transition-colors ${isSelected ? 'text-red-900' : 'text-slate-800'}`}>
+                  {tour.tourName}
+                </p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{tour.productCode}</span>
                   {isSelected && <span className="w-1 h-1 rounded-full bg-red-400" />}
