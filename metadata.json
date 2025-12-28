@@ -1,0 +1,5 @@
+{
+  "name": "Tripventura LLC Pricing Dashboard",
+  "description": "A high-end analytics dashboard for visualizing tour pricing, profit margins, and market positioning using data from Google Sheets.",
+  "requestFramePermissions": []
+}
