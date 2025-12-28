@@ -65,8 +65,8 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
     const isZoomed = left !== 'dataMin' || right !== 'dataMax';
 
     return (
-      <div className="h-[600px] w-full bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm flex flex-col">
-        <div className="mb-8 flex justify-between items-start">
+      <div className="h-[600px] w-full bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm flex flex-col overflow-hidden">
+        <div className="mb-8 flex justify-between items-start shrink-0">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <h2 className="text-xl font-black text-slate-900 tracking-tight">Global Market Positioning</h2>
@@ -94,7 +94,8 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
           </div>
         </div>
         
-        <div className="flex-1 min-h-0">
+        {/* The fix: ensuring a stable flex child with min dimensions for Recharts */}
+        <div className="flex-1 min-w-0 min-h-0 w-full relative">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart 
               data={chartData} 
@@ -207,11 +208,11 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm relative overflow-hidden">
+          <div className="lg:col-span-2 bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm relative overflow-hidden min-h-[500px] flex flex-col">
             <div className="absolute top-0 right-0 p-8 opacity-5">
               <Compass size={180} />
             </div>
-            <div className="flex justify-between items-start mb-10">
+            <div className="flex justify-between items-start mb-10 shrink-0">
               <div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">Tour Pricing DNA</h2>
                 <p className="text-sm text-slate-500 font-medium">Detailed financial breakdown for {tour.tourName}</p>
@@ -221,7 +222,7 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
               </div>
             </div>
             
-            <div className="h-[320px]">
+            <div className="flex-1 min-w-0 min-h-[320px] relative">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData} layout="vertical" margin={{ left: 60, right: 80 }}>
                   <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
@@ -237,7 +238,7 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm flex-1 relative overflow-hidden group">
+            <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm flex-1 relative overflow-hidden group min-h-[240px]">
               <div className="absolute -right-4 -bottom-4 text-red-50 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TrendingUp size={120} />
               </div>
@@ -261,7 +262,7 @@ const PriceChart: React.FC<PriceChartProps> = ({ selectedData }) => {
               </div>
             </div>
 
-            <div className={`rounded-[2rem] border p-8 shadow-sm flex-1 transition-all ${isUnderMarket ? 'bg-emerald-50/50 border-emerald-100' : 'bg-red-50/50 border-red-100'}`}>
+            <div className={`rounded-[2rem] border p-8 shadow-sm flex-1 transition-all min-h-[240px] ${isUnderMarket ? 'bg-emerald-50/50 border-emerald-100' : 'bg-red-50/50 border-red-100'}`}>
               <div className="flex items-center gap-3 mb-6">
                 <div className={`p-3 rounded-2xl shadow-sm ${isUnderMarket ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
                   {isUnderMarket ? <Award className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}

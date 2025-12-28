@@ -5,30 +5,68 @@ import PriceChart from './components/PriceChart';
 import SummaryCards, { DetailTable } from './components/SummaryCards';
 import { fetchTourData } from './services/dataService';
 import { TourData } from './types';
-import { RefreshCw, LayoutDashboard, Database, Info, AlertCircle, Facebook, Instagram, Youtube, Music2, Pin, Mail, Send } from 'lucide-react';
+import { RefreshCw, LayoutDashboard, Database, Info, AlertCircle, Facebook, Instagram, Youtube, Music2, Pin, Mail, Send, User, MessageCircle } from 'lucide-react';
 
 const ContactBox = () => {
-  const handleEmail = () => {
-    window.location.href = "mailto:hashirpaarvi@gmail.com?subject=Data Discrepancy Report&body=Hello Shahid Paarvi,%0D%0A%0D%0AI noticed the following discrepancy in the Tripventura Pricing Dashboard data:%0D%0A%0D%0A[Please describe the issue here]";
+  const [message, setMessage] = useState('');
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    const phoneNumber = "923201196370";
+    const encodedMessage = encodeURIComponent(`*Tripventura Pricing Dashboard Report*\n\n${message}`);
+    
+    // Construct WhatsApp link
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Redirect to WhatsApp
+    window.open(whatsappLink, '_blank');
   };
 
   return (
-    <div className="mt-12 bg-white/40 backdrop-blur-md rounded-[2.5rem] border border-white p-8 shadow-sm group hover:shadow-xl hover:bg-white/60 transition-all border-dashed border-2">
-      <div className="flex flex-col md:flex-row items-center gap-6">
-        <div className="w-16 h-16 bg-red-600 text-white rounded-3xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-          <Mail className="w-8 h-8" />
+    <div className="mt-12 bg-white/40 backdrop-blur-md rounded-[2.5rem] border border-white p-10 shadow-sm group hover:shadow-xl hover:bg-white/60 transition-all border-dashed border-2">
+      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="lg:w-1/3">
+          <div className="w-16 h-16 bg-[#25D366] text-white rounded-3xl flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform">
+            <MessageCircle className="w-8 h-8" />
+          </div>
+          <h3 className="text-2xl font-black text-slate-900 tracking-tight">Direct Support</h3>
+          <p className="text-slate-600 font-medium mt-3 leading-relaxed">
+            Report data issues or suggest changes directly to <strong>Shahid Paarvi</strong> via WhatsApp. We aim for 100% data accuracy.
+          </p>
+          <div className="mt-6 flex items-center gap-3 p-3 bg-white/50 rounded-2xl border border-slate-100">
+            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+              <User size={20} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">WhatsApp Support</p>
+              <p className="text-sm font-bold text-slate-800">+92 320 1196370</p>
+            </div>
+          </div>
         </div>
-        <div className="flex-1 text-center md:text-left">
-          <h3 className="text-xl font-black text-slate-900 tracking-tight">Data Discrepancy Found?</h3>
-          <p className="text-slate-600 font-medium mt-1">Suggest improvements or report data issues directly to <strong>Shahid Paarvi</strong>.</p>
-        </div>
-        <button 
-          onClick={handleEmail}
-          className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-full text-sm font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-lg active:scale-95"
-        >
-          <Send className="w-5 h-5" />
-          Contact Shahid
-        </button>
+
+        <form onSubmit={handleSendMessage} className="flex-1 space-y-4">
+          <div className="relative">
+            <textarea 
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message here (e.g., 'The price for Tour X seems incorrect')..."
+              className="w-full min-h-[180px] p-6 bg-white border border-slate-200 rounded-[2rem] text-slate-800 font-medium focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-red-500 transition-all placeholder:text-slate-400 resize-none"
+              required
+            />
+          </div>
+          <div className="flex justify-end">
+            <button 
+              type="submit"
+              className="flex items-center gap-3 px-10 py-4 bg-[#25D366] text-white rounded-full text-sm font-black uppercase tracking-widest hover:bg-[#128C7E] transition-all shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!message.trim()}
+            >
+              <Send className="w-5 h-5" />
+              Send to Shahid
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
